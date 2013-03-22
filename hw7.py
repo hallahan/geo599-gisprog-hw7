@@ -50,15 +50,23 @@ try:
         print "INVALID INPUT DIRECTORY!"
         raise IOError 
     if os.path.exists(intermediate_dir):
-        shutil.rmtree(intermediate_dir)
-        print('Removed Dir: ' + intermediate_dir)
+        if len(os.listdir(intermediate_dir)) > 0:
+            print("The intermediate directory " + intermediate_dir + " must be empty.")
+            print("Please empty this directory and try again.")
+            print("Exiting.")
+            sys.exit()
+    else:
+        os.mkdir(intermediate_dir)
+        print('Created Empty Dir: ' + intermediate_dir)
     if os.path.exists(output_dir):
-        shutil.rmtree(output_dir)
-        print('Removed Dir: ' + output_dir)
-    os.mkdir(intermediate_dir)
-    print('Created Empty Dir: ' + intermediate_dir)
-    os.mkdir(output_dir)
-    print('Created Empty Dir:' + output_dir)
+        if len(os.listdir(output_dir)) > 0:
+            print("The output directory " + output_dir + " must be empty.")
+            print("Please empty this directory and try again.")
+            print("Exiting.")
+            sys.exit()
+    else:
+        os.mkdir(output_dir)
+        print('Created Empty Dir:' + output_dir)
 
     # create Arc Interface Object
     arc = HW7ArcPy(input_dir, intermediate_dir, output_dir)
